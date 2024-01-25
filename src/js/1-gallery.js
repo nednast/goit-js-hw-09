@@ -1,3 +1,6 @@
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+
 const images = [
   {
     preview:
@@ -63,29 +66,21 @@ const images = [
     description: 'Lighthouse Coast Sea',
   },
 ];
-const imgListElem = document.querySelector('.gallery');
-function imgTamplate(img) {
-  return `<li class="gallery-item">
-        <a class="gallery-link" href="${img.original}">
-          <img
-            class="gallery-image"
-            src="${img.preview}"
-            alt="${img.description}"
-          />
-        </a>
-      </li>
-    `;
-}
 
-function renderImages() {
-  const markup = images.map(imgTamplate).join('');
-  imgListElem.insertAdjacentHTML('beforeend', markup);
-  imgListElem.addEventListener('click', function (e) {
-    e.preventDefault();
-  });
-}
-renderImages();
+const gallery = document.querySelector('.gallery');
 
-let lightbox = new SimpleLightbox('.gallery a', {
-  /* options */
+gallery.innerHTML = images
+  .map(
+    ({ preview, original, description }) =>
+      `<li class="gallery-item">
+    <a class="gallery-link" href="${original}">
+        <img class="gallery-image" src="${preview}" alt="${description}" />
+    </a>
+</li>`
+  )
+  .join('');
+
+new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
 });
